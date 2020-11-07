@@ -1,2 +1,2 @@
 # StudentEssentials.Api
-Api for mobile application.
+Api for mobile application StudentEssentials.
