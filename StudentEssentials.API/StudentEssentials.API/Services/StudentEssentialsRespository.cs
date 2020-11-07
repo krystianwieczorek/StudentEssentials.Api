@@ -36,6 +36,25 @@ namespace StudentEssentials.API.Services
                 .FirstOrDefault();
         }
 
+        public bool UpdateUser(UserRequest userRequest)
+        {
+            try
+            {
+                User user = _context.Users.Where(s => s.UserId == userRequest.UserId).FirstOrDefault();
+                user.GroupId = userRequest.GroupId;
+                _context.SaveChanges();
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+
+            }
+        }
+
         public bool AddNewUser(UserRequest userRequest)
         {
             try
@@ -64,21 +83,36 @@ namespace StudentEssentials.API.Services
         }
 
 
-
-        public Shedule GetShedule(int sheduleId)
+        public bool AddNewSheduleElement(SheduleRequest sheduleRequest)
         {
-            return _context.Shedules
-                .Include(s => s.SubjectList)
-                .ThenInclude(s => s.Subject)
-                .Where(s => s.SheduleId == sheduleId)
-                .FirstOrDefault();
+            try
+            {
+                SubjectToShedule newSubjectToShedule = new SubjectToShedule()
+                {
+                    StartTime = sheduleRequest.StartTime,
+                    EndTime = sheduleRequest.EndTime,
+                    SheduleDay = sheduleRequest.SheduleDay,
+                    Subject = sheduleRequest.Subject,
+                    Profesor = sheduleRequest.Profesor,
+                    GroupId = sheduleRequest.GroupId,
+                };
+                _context.SubjectToShedules.Add(newSubjectToShedule);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
         }
+
 
         public IEnumerable<SubjectToShedule> GetShedulePerDay(int sheduleId, DayOfWeek sheduleDay)
         {
             return _context.SubjectToShedules
-                .Include(s => s.Subject)
-                .Where(s => s.SheduleDay == sheduleDay && s.SheduleId == sheduleId);
+                .Where(s => s.SheduleDay == sheduleDay && s.GroupId == sheduleId);
 
         }
 

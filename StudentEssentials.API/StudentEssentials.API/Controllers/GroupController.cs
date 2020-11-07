@@ -44,6 +44,7 @@ namespace StudentEssentials.API.Controllers
 
             return Ok(groupsFromRepo);
         }
+
     }
 }
 

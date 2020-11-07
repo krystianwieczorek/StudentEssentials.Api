@@ -18,9 +18,9 @@ namespace StudentEssentials.API.Entities
 
         public int UserId { get; set; }
 
-        public int SheduleId { get; set; }
-
         public ICollection<User> UserList { get; set; }
+
+        public ICollection<SubjectToShedule> SubjectList { get; set; }
 
     }
 }

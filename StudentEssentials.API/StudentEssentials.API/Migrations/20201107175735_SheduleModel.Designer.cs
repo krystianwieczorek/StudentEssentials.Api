@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentEssentials.API.DbContexts;
 
 namespace StudentEssentials.API.Migrations
 {
     [DbContext(typeof(StudentEssentialsContext))]
-    partial class StudentEssentialsContextModelSnapshot : ModelSnapshot
+    [Migration("20201107175735_SheduleModel")]
+    partial class SheduleModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,6 +33,9 @@ namespace StudentEssentials.API.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
+                    b.Property<int>("SheduleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -43,19 +48,40 @@ namespace StudentEssentials.API.Migrations
                         {
                             GroupId = 1,
                             Name = "Informatyka I-go st sem.1 gr. dziekańska 6 lab. 11",
+                            SheduleId = 1,
                             UserId = 1
                         },
                         new
                         {
                             GroupId = 2,
                             Name = "Informatyka I-go st sem.1 gr. dziekańska 4 lab. 8",
+                            SheduleId = 1,
                             UserId = 2
                         },
                         new
                         {
                             GroupId = 3,
                             Name = "Informatyka I-go st sem.1 gr. dziekańska 1 lab. 3",
+                            SheduleId = 1,
                             UserId = 2
+                        });
+                });
+
+            modelBuilder.Entity("StudentEssentials.API.Entities.Shedule", b =>
+                {
+                    b.Property<int>("SheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("SheduleId");
+
+                    b.ToTable("Shedules");
+
+                    b.HasData(
+                        new
+                        {
+                            SheduleId = 1
                         });
                 });
 
@@ -82,6 +108,9 @@ namespace StudentEssentials.API.Migrations
                         .HasColumnType("int")
                         .HasMaxLength(50);
 
+                    b.Property<int?>("SheduleId")
+                        .HasColumnType("int");
+
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("time")
                         .HasMaxLength(50);
@@ -94,6 +123,8 @@ namespace StudentEssentials.API.Migrations
                     b.HasKey("SubjectToSheduleId");
 
                     b.HasIndex("GroupId");
+
+                    b.HasIndex("SheduleId");
 
                     b.ToTable("SubjectToShedules");
 
@@ -266,6 +297,10 @@ namespace StudentEssentials.API.Migrations
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("StudentEssentials.API.Entities.Shedule", null)
+                        .WithMany("SubjectList")
+                        .HasForeignKey("SheduleId");
                 });
 
             modelBuilder.Entity("StudentEssentials.API.Entities.User", b =>

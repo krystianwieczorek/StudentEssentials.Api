@@ -16,9 +16,7 @@ namespace StudentEssentials.API.DbContexts
         public DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
 
-        public DbSet<Shedule> Shedules { get; set; }
         public DbSet<SubjectToShedule> SubjectToShedules { get; set; }
-        public DbSet<Subject> Subjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,48 +30,18 @@ namespace StudentEssentials.API.DbContexts
                 .HasKey(s => s.UserId);
 
 
-            modelBuilder.Entity<Shedule>()
+            modelBuilder.Entity<Group>()
                 .HasMany(s => s.SubjectList)
-                .WithOne(s => s.Shedule)
-                .HasForeignKey(s => s.SheduleId);
+                .WithOne(s => s.Group)
+                .HasForeignKey(s => s.GroupId);
 
             modelBuilder.Entity<SubjectToShedule>()
-                .HasOne(s => s.Shedule)
+                .HasOne(s => s.Group)
                 .WithMany(s => s.SubjectList)
-                .HasForeignKey(s => s.SheduleId);
+                .HasForeignKey(s => s.GroupId);
 
-            modelBuilder.Entity<SubjectToShedule>()
-                .HasOne(s => s.Subject)
-                .WithMany()
-                .HasForeignKey(s => s.SubjectId);
 
-            modelBuilder.Entity<Shedule>().HasData(
-                new Shedule()
-                {
-                    SheduleId = 1
-                }
-                );
-
-            modelBuilder.Entity<Subject>().HasData(
-               new Subject()
-               {
-                   SubjectId = 1,
-                   Name = "Programowanie Webowe",
-                   Profesor = "Kazimierz Kądka"
-               },
-                new Subject()
-                {
-                    SubjectId = 2,
-                    Name = "Programowanie Niskopoziomowe",
-                    Profesor = "Aleksandra Aleksandrowicz"
-                },
-                 new Subject()
-                 {
-                     SubjectId = 3,
-                     Name = "Programowanie Rozproszone",
-                     Profesor = "Zbigniew Łysacz"
-                 }
-               );            
+          
             
             modelBuilder.Entity<SubjectToShedule>().HasData(
                new SubjectToShedule()
@@ -82,8 +50,9 @@ namespace StudentEssentials.API.DbContexts
                    StartTime = new TimeSpan(7, 0, 0),
                    EndTime = new TimeSpan(9, 0, 0),
                    SheduleDay = DayOfWeek.Monday,
-                   SubjectId = 1,
-                   SheduleId = 1
+                   GroupId = 1,
+                   Subject = "Programowanie Webowe",
+                   Profesor = "Kazimierz Kądka"
                },
                new SubjectToShedule()
                {
@@ -91,8 +60,10 @@ namespace StudentEssentials.API.DbContexts
                    StartTime = new TimeSpan(9, 0, 0),
                    EndTime = new TimeSpan(11, 0, 0),
                    SheduleDay = DayOfWeek.Monday,
-                   SubjectId = 2,
-                   SheduleId = 1
+                   GroupId = 1,
+                   Subject = "Programowanie Rozproszone",
+                   Profesor = "Zbigniew Łysacz"
+
                },
                new SubjectToShedule()
                {
@@ -100,8 +71,9 @@ namespace StudentEssentials.API.DbContexts
                    StartTime = new TimeSpan(11, 0, 0),
                    EndTime = new TimeSpan(12, 0, 0),
                    SheduleDay = DayOfWeek.Monday,
-                   SubjectId = 3,
-                   SheduleId = 1
+                   GroupId = 1,
+                   Subject = "Sztuczna Inteligencja",
+                   Profesor = "Zbigniew Nochal"
                },               
                new SubjectToShedule()
                {
@@ -109,8 +81,9 @@ namespace StudentEssentials.API.DbContexts
                    StartTime = new TimeSpan(7, 0, 0),
                    EndTime = new TimeSpan(9, 0, 0),
                    SheduleDay = DayOfWeek.Tuesday,
-                   SubjectId = 1,
-                   SheduleId = 1
+                   GroupId = 1,
+                   Subject = "Grafika",
+                   Profesor = "Bożena Aleksandrowicz"
                },
                new SubjectToShedule()
                {
@@ -118,8 +91,9 @@ namespace StudentEssentials.API.DbContexts
                    StartTime = new TimeSpan(9, 0, 0),
                    EndTime = new TimeSpan(11, 0, 0),
                    SheduleDay = DayOfWeek.Tuesday,
-                   SubjectId = 2,
-                   SheduleId = 1
+                   GroupId = 1,
+                   Subject = "Ping-Pong",
+                   Profesor = "Adam Adamowicz"
                },
                new SubjectToShedule()
                {
@@ -127,8 +101,9 @@ namespace StudentEssentials.API.DbContexts
                    StartTime = new TimeSpan(11, 0, 0),
                    EndTime = new TimeSpan(12, 0, 0),
                    SheduleDay = DayOfWeek.Tuesday,
-                   SubjectId = 3,
-                   SheduleId = 1
+                   GroupId = 1,
+                   Subject = "Programowanie Niskopoziomowe",
+                   Profesor = "Aleksandra Aleksandrowicz"
                },
                new SubjectToShedule()
                {
@@ -136,8 +111,9 @@ namespace StudentEssentials.API.DbContexts
                    StartTime = new TimeSpan(11, 0, 0),
                    EndTime = new TimeSpan(12, 0, 0),
                    SheduleDay = DayOfWeek.Tuesday,
-                   SubjectId = 3,
-                   SheduleId = 1
+                   GroupId = 1,
+                   Subject = "Programowanie Wysokopoziomowe",
+                   Profesor = "Aleksandra Aleksandrowicz"
                },
                new SubjectToShedule()
                {
@@ -145,8 +121,9 @@ namespace StudentEssentials.API.DbContexts
                    StartTime = new TimeSpan(11, 0, 0),
                    EndTime = new TimeSpan(12, 0, 0),
                    SheduleDay = DayOfWeek.Wednesday,
-                   SubjectId = 3,
-                   SheduleId = 1
+                   GroupId = 1,
+                   Subject = "Algorytmika",
+                   Profesor = "Paweł Pawłowski"
                },
                new SubjectToShedule()
                {
@@ -154,8 +131,9 @@ namespace StudentEssentials.API.DbContexts
                    StartTime = new TimeSpan(11, 0, 0),
                    EndTime = new TimeSpan(12, 0, 0),
                    SheduleDay = DayOfWeek.Friday,
-                   SubjectId = 3,
-                   SheduleId = 1
+                   GroupId = 1,
+                   Subject = "Big Data",
+                   Profesor = "Aleksandra Aleksandrowicz"
                }
 
                );
@@ -166,21 +144,18 @@ namespace StudentEssentials.API.DbContexts
                    GroupId = 1,
                    Name = "Informatyka I-go st sem.1 gr. dziekańska 6 lab. 11",
                    UserId = 1,
-                   SheduleId = 1
                },
                new Group()
                {
                    GroupId = 2,
                    Name = "Informatyka I-go st sem.1 gr. dziekańska 4 lab. 8",
                    UserId = 2,
-                   SheduleId = 1
                },
                new Group()
                {
                    GroupId = 3,
                    Name = "Informatyka I-go st sem.1 gr. dziekańska 1 lab. 3",
                    UserId = 2,
-                   SheduleId = 1
                }
 
                );

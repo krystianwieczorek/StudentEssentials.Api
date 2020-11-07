@@ -69,6 +69,24 @@ namespace StudentEssentials.API.Controllers
                     new { Error = "Server error" });
             }
 
+            return Ok();
+        }
+
+        [HttpPut("update")]
+        public IActionResult UpdateUser([FromBody] UserRequest userRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { Errors = "Model is invalid" });
+
+            }
+            bool result = _userService.UpdateUser(userRequest);
+
+            if (!result)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { Error = "Server error" });
+            }
 
             return Ok();
         }

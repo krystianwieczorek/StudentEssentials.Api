@@ -87,7 +87,7 @@ namespace StudentEssentials.API
             services.AddDbContext<StudentEssentialsContext>(options =>
             {
                 options.UseSqlServer(
-                   $"Data Source=DESKTOP-F78OK01;Initial Catalog=Test;Integrated Security=True");
+                   $"Data Source=DESKTOP-F78OK01;Initial Catalog=StudentEssentials;Integrated Security=True");
             }); 
 
 

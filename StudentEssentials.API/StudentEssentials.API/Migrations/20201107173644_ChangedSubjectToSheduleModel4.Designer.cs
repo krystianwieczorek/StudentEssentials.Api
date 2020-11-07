@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentEssentials.API.DbContexts;
 
 namespace StudentEssentials.API.Migrations
 {
     [DbContext(typeof(StudentEssentialsContext))]
-    partial class StudentEssentialsContextModelSnapshot : ModelSnapshot
+    [Migration("20201107173644_ChangedSubjectToSheduleModel4")]
+    partial class ChangedSubjectToSheduleModel4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,6 +33,9 @@ namespace StudentEssentials.API.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
+                    b.Property<int>("SheduleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -43,19 +48,40 @@ namespace StudentEssentials.API.Migrations
                         {
                             GroupId = 1,
                             Name = "Informatyka I-go st sem.1 gr. dziekańska 6 lab. 11",
+                            SheduleId = 1,
                             UserId = 1
                         },
                         new
                         {
                             GroupId = 2,
                             Name = "Informatyka I-go st sem.1 gr. dziekańska 4 lab. 8",
+                            SheduleId = 1,
                             UserId = 2
                         },
                         new
                         {
                             GroupId = 3,
                             Name = "Informatyka I-go st sem.1 gr. dziekańska 1 lab. 3",
+                            SheduleId = 1,
                             UserId = 2
+                        });
+                });
+
+            modelBuilder.Entity("StudentEssentials.API.Entities.Shedule", b =>
+                {
+                    b.Property<int>("SheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("SheduleId");
+
+                    b.ToTable("Shedules");
+
+                    b.HasData(
+                        new
+                        {
+                            SheduleId = 1
                         });
                 });
 
@@ -70,9 +96,6 @@ namespace StudentEssentials.API.Migrations
                         .HasColumnType("time")
                         .HasMaxLength(50);
 
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Profesor")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
@@ -81,6 +104,9 @@ namespace StudentEssentials.API.Migrations
                     b.Property<int>("SheduleDay")
                         .HasColumnType("int")
                         .HasMaxLength(50);
+
+                    b.Property<int>("SheduleId")
+                        .HasColumnType("int");
 
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("time")
@@ -93,7 +119,7 @@ namespace StudentEssentials.API.Migrations
 
                     b.HasKey("SubjectToSheduleId");
 
-                    b.HasIndex("GroupId");
+                    b.HasIndex("SheduleId");
 
                     b.ToTable("SubjectToShedules");
 
@@ -102,9 +128,9 @@ namespace StudentEssentials.API.Migrations
                         {
                             SubjectToSheduleId = 1,
                             EndTime = new TimeSpan(0, 9, 0, 0, 0),
-                            GroupId = 1,
                             Profesor = "Kazimierz Kądka",
                             SheduleDay = 1,
+                            SheduleId = 1,
                             StartTime = new TimeSpan(0, 7, 0, 0, 0),
                             Subject = "Programowanie Webowe"
                         },
@@ -112,9 +138,9 @@ namespace StudentEssentials.API.Migrations
                         {
                             SubjectToSheduleId = 2,
                             EndTime = new TimeSpan(0, 11, 0, 0, 0),
-                            GroupId = 1,
                             Profesor = "Zbigniew Łysacz",
                             SheduleDay = 1,
+                            SheduleId = 1,
                             StartTime = new TimeSpan(0, 9, 0, 0, 0),
                             Subject = "Programowanie Rozproszone"
                         },
@@ -122,9 +148,9 @@ namespace StudentEssentials.API.Migrations
                         {
                             SubjectToSheduleId = 3,
                             EndTime = new TimeSpan(0, 12, 0, 0, 0),
-                            GroupId = 1,
                             Profesor = "Zbigniew Nochal",
                             SheduleDay = 1,
+                            SheduleId = 1,
                             StartTime = new TimeSpan(0, 11, 0, 0, 0),
                             Subject = "Sztuczna Inteligencja"
                         },
@@ -132,9 +158,9 @@ namespace StudentEssentials.API.Migrations
                         {
                             SubjectToSheduleId = 4,
                             EndTime = new TimeSpan(0, 9, 0, 0, 0),
-                            GroupId = 1,
                             Profesor = "Bożena Aleksandrowicz",
                             SheduleDay = 2,
+                            SheduleId = 1,
                             StartTime = new TimeSpan(0, 7, 0, 0, 0),
                             Subject = "Grafika"
                         },
@@ -142,9 +168,9 @@ namespace StudentEssentials.API.Migrations
                         {
                             SubjectToSheduleId = 5,
                             EndTime = new TimeSpan(0, 11, 0, 0, 0),
-                            GroupId = 1,
                             Profesor = "Adam Adamowicz",
                             SheduleDay = 2,
+                            SheduleId = 1,
                             StartTime = new TimeSpan(0, 9, 0, 0, 0),
                             Subject = "Ping-Pong"
                         },
@@ -152,9 +178,9 @@ namespace StudentEssentials.API.Migrations
                         {
                             SubjectToSheduleId = 6,
                             EndTime = new TimeSpan(0, 12, 0, 0, 0),
-                            GroupId = 1,
                             Profesor = "Aleksandra Aleksandrowicz",
                             SheduleDay = 2,
+                            SheduleId = 1,
                             StartTime = new TimeSpan(0, 11, 0, 0, 0),
                             Subject = "Programowanie Niskopoziomowe"
                         },
@@ -162,9 +188,9 @@ namespace StudentEssentials.API.Migrations
                         {
                             SubjectToSheduleId = 7,
                             EndTime = new TimeSpan(0, 12, 0, 0, 0),
-                            GroupId = 1,
                             Profesor = "Aleksandra Aleksandrowicz",
                             SheduleDay = 2,
+                            SheduleId = 1,
                             StartTime = new TimeSpan(0, 11, 0, 0, 0),
                             Subject = "Programowanie Wysokopoziomowe"
                         },
@@ -172,9 +198,9 @@ namespace StudentEssentials.API.Migrations
                         {
                             SubjectToSheduleId = 8,
                             EndTime = new TimeSpan(0, 12, 0, 0, 0),
-                            GroupId = 1,
                             Profesor = "Paweł Pawłowski",
                             SheduleDay = 3,
+                            SheduleId = 1,
                             StartTime = new TimeSpan(0, 11, 0, 0, 0),
                             Subject = "Algorytmika"
                         },
@@ -182,9 +208,9 @@ namespace StudentEssentials.API.Migrations
                         {
                             SubjectToSheduleId = 9,
                             EndTime = new TimeSpan(0, 12, 0, 0, 0),
-                            GroupId = 1,
                             Profesor = "Aleksandra Aleksandrowicz",
                             SheduleDay = 5,
+                            SheduleId = 1,
                             StartTime = new TimeSpan(0, 11, 0, 0, 0),
                             Subject = "Big Data"
                         });
@@ -261,9 +287,9 @@ namespace StudentEssentials.API.Migrations
 
             modelBuilder.Entity("StudentEssentials.API.Entities.SubjectToShedule", b =>
                 {
-                    b.HasOne("StudentEssentials.API.Entities.Group", "Group")
+                    b.HasOne("StudentEssentials.API.Entities.Shedule", "Shedule")
                         .WithMany("SubjectList")
-                        .HasForeignKey("GroupId")
+                        .HasForeignKey("SheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

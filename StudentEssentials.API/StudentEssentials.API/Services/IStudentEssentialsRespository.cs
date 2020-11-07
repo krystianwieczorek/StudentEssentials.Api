@@ -12,7 +12,8 @@ namespace StudentEssentials.API.Services
         User GetUser(int userId);
 
         bool AddNewUser(UserRequest userRequest);
-        Shedule GetShedule(int sheduleId);
+        bool UpdateUser(UserRequest userRequest);
+        bool AddNewSheduleElement(SheduleRequest sheduleRequest);
         IEnumerable<SubjectToShedule> GetShedulePerDay(int sheduleId, DayOfWeek sheduleDay);
 
         Group GetGroup(int groupId);

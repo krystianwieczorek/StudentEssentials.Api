@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using StudentEssentials.API.Models;
 using StudentEssentials.API.Services;
 using System;
 using System.Collections.Generic;
@@ -18,11 +20,11 @@ namespace StudentEssentials.API.Controllers
             _studentEssentialsRepo = studentEssentialsRepo ?? throw new ArgumentNullException(nameof(studentEssentialsRepo));
         }
 
-        //[Authorize]
-        [HttpGet("sheduleId")]
-        public IActionResult GetShedule(int sheduleId)
+
+        [HttpGet("{groupId}/{sheduleDay}")]
+        public IActionResult GetShedulePerDay(int groupId, DayOfWeek sheduleDay)
         {
-            var sheduleFromRepo = _studentEssentialsRepo.GetShedule(sheduleId);
+            var sheduleFromRepo = _studentEssentialsRepo.GetShedulePerDay(groupId, sheduleDay);
 
             if (sheduleFromRepo == null)
             {
@@ -32,17 +34,24 @@ namespace StudentEssentials.API.Controllers
             return Ok(sheduleFromRepo);
         }
 
-        [HttpGet("{sheduleId}/{sheduleDay}")]
-        public IActionResult GetShedulePerDay(int sheduleId, DayOfWeek sheduleDay)
+        [HttpPost("add")]
+        public IActionResult AddNewSheduleElement([FromBody] SheduleRequest sheduleRequest)
         {
-            var sheduleFromRepo = _studentEssentialsRepo.GetShedulePerDay(sheduleId, sheduleDay);
-
-            if (sheduleFromRepo == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(new { Errors = "Model is invalid" });
+
+            }
+            bool result = _studentEssentialsRepo.AddNewSheduleElement(sheduleRequest);
+
+            if (!result)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { Error = "Server error" });
             }
 
-            return Ok(sheduleFromRepo);
+
+            return Ok();
         }
     }
 }

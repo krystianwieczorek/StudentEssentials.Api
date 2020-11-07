@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,14 +25,21 @@ namespace StudentEssentials.API.Entities
         [MaxLength(50)]
         public DayOfWeek SheduleDay { get; set; }
 
-        public int SheduleId { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string Subject { get; set; }
 
-        [ForeignKey(nameof(SheduleId))]
-        public Shedule Shedule { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string Profesor { get; set; }
 
-        public int SubjectId { get; set; }
+        [JsonIgnore]
+        public int GroupId { get; set; }
 
-        [ForeignKey(nameof(SubjectId))]
-        public Subject Subject { get; set; }
+        
+        [ForeignKey(nameof(GroupId)), JsonIgnore]
+        public Group Group { get; set; }
+
+
     }
 }
