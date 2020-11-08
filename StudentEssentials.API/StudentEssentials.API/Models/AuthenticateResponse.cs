@@ -7,6 +7,7 @@ namespace StudentEssentials.API.Models
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int? GroupId { get; set; }
         public string Email { get; set; }
         public string Token { get; set; }
 
@@ -16,6 +17,7 @@ namespace StudentEssentials.API.Models
             Id = user.UserId;
             FirstName = user.FirstName;
             LastName = user.LastName;
+            GroupId = user.GroupId;
             Email = user.Email;
             Token = token;
         }
