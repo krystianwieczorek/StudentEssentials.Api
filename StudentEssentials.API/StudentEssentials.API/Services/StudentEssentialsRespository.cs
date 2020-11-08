@@ -82,6 +82,30 @@ namespace StudentEssentials.API.Services
             }
         }
 
+        public bool AddNewGroup(GroupRequest groupRequest)
+        {
+            try
+            {
+                Group newGroup = new Group()
+                {
+                    Name = groupRequest.Name,
+                    UserId = groupRequest.UserId,
+                };
+
+                _context.Groups.Add(newGroup);
+                _context.SaveChanges();
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+
+            }
+        }
+
 
         public bool AddNewSheduleElement(SheduleRequest sheduleRequest)
         {
@@ -89,12 +113,12 @@ namespace StudentEssentials.API.Services
             {
                 SubjectToShedule newSubjectToShedule = new SubjectToShedule()
                 {
-                    StartTime = sheduleRequest.StartTime,
-                    EndTime = sheduleRequest.EndTime,
-                    SheduleDay = sheduleRequest.SheduleDay,
+                    StartTime = (TimeSpan)sheduleRequest.StartTime,
+                    EndTime = (TimeSpan)sheduleRequest.EndTime,
+                    SheduleDay = (DayOfWeek)sheduleRequest.SheduleDay,
                     Subject = sheduleRequest.Subject,
                     Profesor = sheduleRequest.Profesor,
-                    GroupId = sheduleRequest.GroupId,
+                    GroupId = (int)sheduleRequest.GroupId,
                 };
                 _context.SubjectToShedules.Add(newSubjectToShedule);
                 _context.SaveChanges();
@@ -108,6 +132,24 @@ namespace StudentEssentials.API.Services
             }
         }
 
+
+        public bool DeleteSheduleElement(SheduleRequest sheduleRequest)
+        {
+            try
+            {
+                SubjectToShedule sheduleElem = _context.SubjectToShedules.Where(s => s.SubjectToSheduleId == sheduleRequest.SubjectToSheduleId).FirstOrDefault();
+                
+                _context.SubjectToShedules.Remove(sheduleElem);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+        }
 
         public IEnumerable<SubjectToShedule> GetShedulePerDay(int sheduleId, DayOfWeek sheduleDay)
         {

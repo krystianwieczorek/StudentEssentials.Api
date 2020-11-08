@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using StudentEssentials.API.Models;
 using StudentEssentials.API.Services;
 using System;
 using System.Collections.Generic;
@@ -44,6 +46,27 @@ namespace StudentEssentials.API.Controllers
 
             return Ok(groupsFromRepo);
         }
+
+        [HttpPost("add")]
+        public IActionResult AddNewGroup([FromBody] GroupRequest groupRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { Errors = "Model is invalid" });
+
+            }
+            bool result = _studentEssentialsRepo.AddNewGroup(groupRequest);
+
+            if (!result)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { Error = "Server error" });
+            }
+
+            return Ok();
+        }
+
+
 
     }
 }

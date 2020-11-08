@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,9 +17,14 @@ namespace StudentEssentials.API.Entities
         [MaxLength(50)]
         public string Name { get; set; }
 
+        [ForeignKey(nameof(UserId))]
+
         public int UserId { get; set; }
+        public User Owner { get; set; }
 
         public ICollection<User> UserList { get; set; }
+
+        [JsonIgnore]
 
         public ICollection<SubjectToShedule> SubjectList { get; set; }
 

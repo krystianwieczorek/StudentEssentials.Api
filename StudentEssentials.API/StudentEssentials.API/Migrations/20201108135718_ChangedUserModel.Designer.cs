@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentEssentials.API.DbContexts;
 
 namespace StudentEssentials.API.Migrations
 {
     [DbContext(typeof(StudentEssentialsContext))]
-    partial class StudentEssentialsContextModelSnapshot : ModelSnapshot
+    [Migration("20201108135718_ChangedUserModel")]
+    partial class ChangedUserModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +37,6 @@ namespace StudentEssentials.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("GroupId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Groups");
 
@@ -254,15 +254,6 @@ namespace StudentEssentials.API.Migrations
                             Password = "test",
                             Role = 0
                         });
-                });
-
-            modelBuilder.Entity("StudentEssentials.API.Entities.Group", b =>
-                {
-                    b.HasOne("StudentEssentials.API.Entities.User", "Owner")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("StudentEssentials.API.Entities.SubjectToShedule", b =>

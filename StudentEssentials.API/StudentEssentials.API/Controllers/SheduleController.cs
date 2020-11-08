@@ -53,5 +53,26 @@ namespace StudentEssentials.API.Controllers
 
             return Ok();
         }
+
+        [HttpPost("delete")]
+        public IActionResult DeleteSheduleElement([FromBody] SheduleRequest sheduleRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { Errors = "Model is invalid" });
+
+            }
+            bool result = _studentEssentialsRepo.DeleteSheduleElement(sheduleRequest);
+
+            if (!result)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { Error = "Server error" });
+            }
+
+            return Ok();
+        }
+
+
     }
 }

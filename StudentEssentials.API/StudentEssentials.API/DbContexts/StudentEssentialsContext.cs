@@ -27,8 +27,17 @@ namespace StudentEssentials.API.DbContexts
                 .HasForeignKey(s => s.GroupId);
 
             modelBuilder.Entity<User>()
+                .HasOne(s => s.Group)
+                .WithMany(s => s.UserList)
+                .HasForeignKey(s => s.GroupId);
+
+            modelBuilder.Entity<User>()
                 .HasKey(s => s.UserId);
 
+            modelBuilder.Entity<Group>()
+                .HasOne(s => s.Owner)
+                .WithMany()
+                .HasForeignKey(s => s.UserId);
 
             modelBuilder.Entity<Group>()
                 .HasMany(s => s.SubjectList)

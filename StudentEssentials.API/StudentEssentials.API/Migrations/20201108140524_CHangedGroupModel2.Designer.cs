@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentEssentials.API.DbContexts;
 
 namespace StudentEssentials.API.Migrations
 {
     [DbContext(typeof(StudentEssentialsContext))]
-    partial class StudentEssentialsContextModelSnapshot : ModelSnapshot
+    [Migration("20201108140524_CHangedGroupModel2")]
+    partial class CHangedGroupModel2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,12 +33,15 @@ namespace StudentEssentials.API.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
+                    b.Property<int?>("OwnerUserId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("GroupId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerUserId");
 
                     b.ToTable("Groups");
 
@@ -260,9 +265,7 @@ namespace StudentEssentials.API.Migrations
                 {
                     b.HasOne("StudentEssentials.API.Entities.User", "Owner")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerUserId");
                 });
 
             modelBuilder.Entity("StudentEssentials.API.Entities.SubjectToShedule", b =>
