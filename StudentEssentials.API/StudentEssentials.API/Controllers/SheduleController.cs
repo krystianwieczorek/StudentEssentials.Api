@@ -73,6 +73,26 @@ namespace StudentEssentials.API.Controllers
             return Ok();
         }
 
+        [HttpPut("edit")]
+        public IActionResult EditSheduleElement([FromBody] SheduleRequest sheduleRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { Errors = "Model is invalid" });
+
+            }
+            bool result = _studentEssentialsRepo.EditSheduleElement(sheduleRequest);
+
+            if (!result)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { Error = "Server error" });
+            }
+
+            return Ok();
+        }
+
+
 
     }
 }

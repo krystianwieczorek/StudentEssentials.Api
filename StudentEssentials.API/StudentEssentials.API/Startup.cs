@@ -30,12 +30,23 @@ namespace StudentEssentials.API
         }
 
         public IConfiguration Configuration { get; }
+        readonly string WebCorsPolicy = "Cors";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
-            services.AddControllers();
+            services.AddCors(options =>
+            {
+                //options.AddPolicy(name: WebCorsPolicy,
+                //    builder =>
+                //    {
+                //        builder.WithOrigins("https://localhost:19002", "https://localhost:19006")
+                //        .AllowAnyHeader()
+                //        .AllowAnyMethod()
+                //        .SetIsOriginAllowed((x) => true)
+                //        .AllowCredentials();
+                //    });
+            }); services.AddControllers();
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
@@ -101,6 +112,7 @@ namespace StudentEssentials.API
                 app.UseDeveloperExceptionPage();
             }
 
+
             app.UseHttpsRedirection();
 
             app.UseSwagger();
@@ -113,17 +125,16 @@ namespace StudentEssentials.API
             app.UseRouting();
 
             app.UseCors(x => x
-               .AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader());
+               .AllowAnyOrigin());
+               //.AllowAnyMethod()
+               //.AllowAnyHeader());
+
+            //app.UseCors(WebCorsPolicy);
 
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseMiddleware<JwtMiddleware>();
-
-            var dateValue = new DateTime(2020, 3, 1, 11, 0, 0);
-            Console.WriteLine(dateValue.ToString("dddd"));
 
             app.UseEndpoints(endpoints =>
             {

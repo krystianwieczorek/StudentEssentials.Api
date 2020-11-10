@@ -132,6 +132,27 @@ namespace StudentEssentials.API.Services
             }
         }
 
+        public bool EditSheduleElement(SheduleRequest sheduleRequest)
+        {
+            try
+            {
+                SubjectToShedule sheduleElem = _context.SubjectToShedules.Where(s => s.SubjectToSheduleId == sheduleRequest.SubjectToSheduleId).FirstOrDefault();
+                sheduleElem.StartTime = (TimeSpan)sheduleRequest.StartTime;
+                sheduleElem.EndTime = (TimeSpan)sheduleRequest.EndTime;
+                sheduleElem.Subject = sheduleRequest.Subject;
+                sheduleElem.Profesor = sheduleRequest.Profesor;
+                _context.SaveChanges();
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+
+            }
+        }
 
         public bool DeleteSheduleElement(SheduleRequest sheduleRequest)
         {

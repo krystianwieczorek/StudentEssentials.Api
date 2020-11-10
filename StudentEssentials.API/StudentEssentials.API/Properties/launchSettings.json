@@ -2,10 +2,6 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
-    "iis": {
-      "applicationUrl": "http://localhost/CourseLibrary.API",
-      "sslPort": 0
-    },
     "iisExpress": {
       "applicationUrl": "http://localhost:51044",
       "sslPort": 0
