@@ -42,6 +42,17 @@ namespace StudentEssentials.API.Services
             {
                 User user = _context.Users.Where(s => s.UserId == userRequest.UserId).FirstOrDefault();
                 user.GroupId = userRequest.GroupId;
+                if (userRequest.FirstName != null) {
+                    user.FirstName = userRequest.FirstName;
+                }
+                if (userRequest.LastName != null )
+                {
+                    user.LastName = userRequest.LastName;
+                }
+                if (userRequest.Email != null)
+                {
+                    user.Email = userRequest.Email;
+                }
                 _context.SaveChanges();
 
                 return true;
