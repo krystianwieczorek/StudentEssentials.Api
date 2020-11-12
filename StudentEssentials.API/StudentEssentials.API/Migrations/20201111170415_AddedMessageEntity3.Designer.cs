@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentEssentials.API.DbContexts;
 
 namespace StudentEssentials.API.Migrations
 {
     [DbContext(typeof(StudentEssentialsContext))]
-    partial class StudentEssentialsContextModelSnapshot : ModelSnapshot
+    [Migration("20201111170415_AddedMessageEntity3")]
+    partial class AddedMessageEntity3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

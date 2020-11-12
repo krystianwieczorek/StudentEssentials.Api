@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using StudentEssentials.API.DbContexts;
 using StudentEssentials.API.Helpers;
 using StudentEssentials.API.Services;
+using SignalRChat.Hubs;
 
 namespace StudentEssentials.API
 {
@@ -37,16 +38,17 @@ namespace StudentEssentials.API
         {
             services.AddCors(options =>
             {
-                //options.AddPolicy(name: WebCorsPolicy,
-                //    builder =>
-                //    {
-                //        builder.WithOrigins("https://localhost:19002", "https://localhost:19006")
-                //        .AllowAnyHeader()
-                //        .AllowAnyMethod()
-                //        .SetIsOriginAllowed((x) => true)
-                //        .AllowCredentials();
-                //    });
-            }); services.AddControllers();
+                options.AddPolicy(name: WebCorsPolicy,
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:19002", "https://localhost:19006")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                    });
+            }); 
+            
+            services.AddControllers();
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
@@ -95,6 +97,8 @@ namespace StudentEssentials.API
 
             services.AddScoped<IStudentEssentialsRespository, StudentEssentialsRespository>();
 
+            services.AddSignalR();
+
             services.AddDbContext<StudentEssentialsContext>(options =>
             {
                 options.UseSqlServer(
@@ -124,8 +128,8 @@ namespace StudentEssentials.API
 
             app.UseRouting();
 
-            app.UseCors(x => x
-               .AllowAnyOrigin());
+            //app.UseCors(x => x
+            //   .AllowAnyOrigin());
                //.AllowAnyMethod()
                //.AllowAnyHeader());
 
@@ -139,6 +143,8 @@ namespace StudentEssentials.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chathub");
+
             });
         }
     }

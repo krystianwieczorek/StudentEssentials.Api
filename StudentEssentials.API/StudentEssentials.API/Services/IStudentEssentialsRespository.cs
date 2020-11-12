@@ -17,7 +17,9 @@ namespace StudentEssentials.API.Services
         bool AddNewSheduleElement(SheduleRequest sheduleRequest);
         bool EditSheduleElement(SheduleRequest sheduleRequest);
         bool DeleteSheduleElement(SheduleRequest sheduleRequest);
+        bool SendMessage(MessageRequest messageRequest);
         IEnumerable<SubjectToShedule> GetShedulePerDay(int sheduleId, DayOfWeek sheduleDay);
+        IEnumerable<Message> GetMessages(int groupId);
 
         Group GetGroup(int groupId);
         IEnumerable<Group> GetAllGroups();

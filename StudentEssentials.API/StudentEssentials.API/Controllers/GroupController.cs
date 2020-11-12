@@ -67,7 +67,6 @@ namespace StudentEssentials.API.Controllers
         }
 
 
-
     }
 }
 

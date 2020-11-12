@@ -15,8 +15,8 @@ namespace StudentEssentials.API.DbContexts
 
         public DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
-
         public DbSet<SubjectToShedule> SubjectToShedules { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -49,9 +49,39 @@ namespace StudentEssentials.API.DbContexts
                 .WithMany(s => s.SubjectList)
                 .HasForeignKey(s => s.GroupId);
 
+            modelBuilder.Entity<Message>()
+                .HasKey(s => s.MessageId);
 
-          
-            
+
+            modelBuilder.Entity<Message>().HasData(
+                new Message()
+                {
+                    MessageId = 1,
+                    Content = "MessageMessageMessageMessageMessageMessageMessageMessageMessage MessageMessageMessageMessage",
+                    Date = new DateTime(),
+                    GroupId = 1,
+                    UserId = 2
+                },
+                new Message()
+                {
+                    MessageId = 2,
+                    Content = "45545454 5757457457457547 454575475474",
+                    Date = new DateTime(),
+
+                    GroupId = 1,
+                    UserId = 1
+                },
+                new Message()
+                {
+                    MessageId = 3,
+                    Content = "fesfsefsef MessageMessageMessaj46j4j45j54j4geMessage",
+                    Date = new DateTime(),
+
+                    GroupId = 1,
+                    UserId = 2
+                }
+                );
+
             modelBuilder.Entity<SubjectToShedule>().HasData(
                new SubjectToShedule()
                {

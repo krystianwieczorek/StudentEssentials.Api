@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentEssentials.API.DbContexts;
 
 namespace StudentEssentials.API.Migrations
 {
     [DbContext(typeof(StudentEssentialsContext))]
-    partial class StudentEssentialsContextModelSnapshot : ModelSnapshot
+    [Migration("20201111152051_AddedMessageEntity")]
+    partial class AddedMessageEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +73,6 @@ namespace StudentEssentials.API.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<int?>("GroupId")
                         .HasColumnType("int");
 
@@ -93,25 +92,8 @@ namespace StudentEssentials.API.Migrations
                         {
                             MessageId = 1,
                             Content = "MessageMessageMessageMessageMessageMessageMessageMessageMessage MessageMessageMessageMessage",
-                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GroupId = 1,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            MessageId = 2,
-                            Content = "45545454 5757457457457547 454575475474",
-                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GroupId = 1,
                             UserId = 1
-                        },
-                        new
-                        {
-                            MessageId = 3,
-                            Content = "fesfsefsef MessageMessageMessaj46j4j45j54j4geMessage",
-                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GroupId = 1,
-                            UserId = 2
                         });
                 });
 

@@ -93,6 +93,33 @@ namespace StudentEssentials.API.Services
             }
         }
 
+        public bool SendMessage(MessageRequest messageRequest)
+        {
+            try
+            {
+                Message newMessage = new Message()
+                {
+                    Content = messageRequest.Content,
+                    Date = messageRequest.Date,
+                    GroupId = messageRequest.GroupId,
+                    UserId = messageRequest.UserId,
+                };
+
+                _context.Messages.Add(newMessage);
+                _context.SaveChanges();
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+
+            }
+        }
+
+
         public bool AddNewGroup(GroupRequest groupRequest)
         {
             try
@@ -189,6 +216,15 @@ namespace StudentEssentials.API.Services
                 .Where(s => s.SheduleDay == sheduleDay && s.GroupId == sheduleId);
 
         }
+
+        public IEnumerable<Message> GetMessages(int groupId)
+        {
+            return _context.Messages
+                .Where(s => s.GroupId == groupId)
+                .Include(s => s.User)
+                .OrderBy(s => s.Date);
+        }
+
 
         public Group GetGroup(int groupId)
         {
