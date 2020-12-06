@@ -156,6 +156,7 @@ namespace StudentEssentials.API.Services
                     SheduleDay = (DayOfWeek)sheduleRequest.SheduleDay,
                     Subject = sheduleRequest.Subject,
                     Profesor = sheduleRequest.Profesor,
+                    Classroom = sheduleRequest.Classroom,
                     GroupId = (int)sheduleRequest.GroupId,
                 };
                 _context.SubjectToShedules.Add(newSubjectToShedule);
@@ -179,6 +180,8 @@ namespace StudentEssentials.API.Services
                 sheduleElem.EndTime = (TimeSpan)sheduleRequest.EndTime;
                 sheduleElem.Subject = sheduleRequest.Subject;
                 sheduleElem.Profesor = sheduleRequest.Profesor;
+                sheduleElem.Classroom = sheduleRequest.Classroom;
+
                 _context.SaveChanges();
 
                 return true;

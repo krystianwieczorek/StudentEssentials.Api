@@ -13,6 +13,7 @@ namespace StudentEssentials.API.Models
         public DayOfWeek? SheduleDay { get; set; }
         public string Subject { get; set; }
         public string Profesor { get; set; }
+        public string Classroom { get; set; }
         public int? GroupId { get; set; }
     }
 }

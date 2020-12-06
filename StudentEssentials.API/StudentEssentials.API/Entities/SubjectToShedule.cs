@@ -32,6 +32,7 @@ namespace StudentEssentials.API.Entities
         [Required]
         [MaxLength(50)]
         public string Profesor { get; set; }
+        public string Classroom { get; set; }
 
         [JsonIgnore]
         public int GroupId { get; set; }
