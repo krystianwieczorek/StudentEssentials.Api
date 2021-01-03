@@ -91,5 +91,25 @@ namespace StudentEssentials.API.Controllers
             return Ok();
         }
 
+
+        [HttpPut("changePassword")]
+        public IActionResult ChangePassword([FromBody] ChangePasswordRequest passwordRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { Errors = "Model is invalid" });
+
+            }
+            bool result = _userService.ChangePassword(passwordRequest);
+
+            if (!result)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { Error = "Server error" });
+            }
+
+            return Ok();
+        }
+
     }
 }

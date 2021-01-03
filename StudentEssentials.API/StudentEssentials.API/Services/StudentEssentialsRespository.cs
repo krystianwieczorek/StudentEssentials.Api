@@ -42,10 +42,11 @@ namespace StudentEssentials.API.Services
             {
                 User user = _context.Users.Where(s => s.UserId == userRequest.UserId).FirstOrDefault();
                 user.GroupId = userRequest.GroupId;
-                if (userRequest.FirstName != null) {
+                if (userRequest.FirstName != null)
+                {
                     user.FirstName = userRequest.FirstName;
                 }
-                if (userRequest.LastName != null )
+                if (userRequest.LastName != null)
                 {
                     user.LastName = userRequest.LastName;
                 }
@@ -171,153 +172,173 @@ namespace StudentEssentials.API.Services
             }
         }
 
-        public bool EditSheduleElement(SheduleRequest sheduleRequest)
+        public bool ChangePassword(ChangePasswordRequest passwordRequest)
         {
-            try
-            {
-                SubjectToShedule sheduleElem = _context.SubjectToShedules.Where(s => s.SubjectToSheduleId == sheduleRequest.SubjectToSheduleId).FirstOrDefault();
-                sheduleElem.StartTime = (TimeSpan)sheduleRequest.StartTime;
-                sheduleElem.EndTime = (TimeSpan)sheduleRequest.EndTime;
-                sheduleElem.Subject = sheduleRequest.Subject;
-                sheduleElem.Profesor = sheduleRequest.Profesor;
-                sheduleElem.Classroom = sheduleRequest.Classroom;
 
+            User user = _context.Users.Where(s => s.UserId == passwordRequest.UserId).FirstOrDefault();
+            if (passwordRequest.Password0 != null && passwordRequest.Password0 == user.Password
+                && passwordRequest.Password1 == passwordRequest.Password2)
+            {
+                user.Password = passwordRequest.Password1;
                 _context.SaveChanges();
 
                 return true;
-
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(ex.ToString());
                 return false;
 
             }
         }
 
-        public bool DeleteSheduleElement(SheduleRequest sheduleRequest)
-        {
-            try
-            {
-                SubjectToShedule sheduleElem = _context.SubjectToShedules.Where(s => s.SubjectToSheduleId == sheduleRequest.SubjectToSheduleId).FirstOrDefault();
-                
-                _context.SubjectToShedules.Remove(sheduleElem);
-                _context.SaveChanges();
 
-                return true;
+            public bool EditSheduleElement(SheduleRequest sheduleRequest)
+            {
+                try
+                {
+                    SubjectToShedule sheduleElem = _context.SubjectToShedules.Where(s => s.SubjectToSheduleId == sheduleRequest.SubjectToSheduleId).FirstOrDefault();
+                    sheduleElem.StartTime = (TimeSpan)sheduleRequest.StartTime;
+                    sheduleElem.EndTime = (TimeSpan)sheduleRequest.EndTime;
+                    sheduleElem.Subject = sheduleRequest.Subject;
+                    sheduleElem.Profesor = sheduleRequest.Profesor;
+                    sheduleElem.Classroom = sheduleRequest.Classroom;
+
+                    _context.SaveChanges();
+
+                    return true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    return false;
+
+                }
             }
-            catch (Exception ex)
+
+            public bool DeleteSheduleElement(SheduleRequest sheduleRequest)
             {
-                Console.WriteLine(ex.ToString());
-                return false;
+                try
+                {
+                    SubjectToShedule sheduleElem = _context.SubjectToShedules.Where(s => s.SubjectToSheduleId == sheduleRequest.SubjectToSheduleId).FirstOrDefault();
+
+                    _context.SubjectToShedules.Remove(sheduleElem);
+                    _context.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    return false;
+                }
             }
-        }
 
-        public IEnumerable<SubjectToShedule> GetShedulePerDay(int sheduleId, DayOfWeek sheduleDay)
-        {
-            return _context.SubjectToShedules
-                .Where(s => s.SheduleDay == sheduleDay && s.GroupId == sheduleId);
-
-        }
-
-        public IEnumerable<Message> GetMessages(int groupId)
-        {
-            return _context.Messages
-                .Where(s => s.GroupId == groupId)
-                .Include(s => s.User)
-                .OrderBy(s => s.Date);
-        }
-
-
-        public Group GetGroup(int groupId)
-        {
-            return _context.Groups
-                .Include(s => s.UserList)
-                .Where(s=> s.GroupId == groupId)
-                .FirstOrDefault();
-
-        }
-
-        public IEnumerable<Group> GetAllGroups()
-        {
-            return _context.Groups;
-
-        }
-
-
-
-        public SubjectToShedule GetSubjectToSedule(int subjectToShedule)
-        {
-            return _context.SubjectToShedules.FirstOrDefault(s => s.SubjectToSheduleId == subjectToShedule);
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public AuthenticateResponse Authenticate(AuthenticateRequest model)
-        {
-            var user = _context.Users.SingleOrDefault(x => x.Email == model.Email && x.Password == model.Password);
-
-            // return null if user not found
-            if (user == null) return null;
-
-            // authentication successful so generate jwt token
-            var token = generateJwtToken(user);
-
-            return new AuthenticateResponse(user, token);
-        }
-
-        public IEnumerable<User> GetAll()
-        {
-            return _context.Users;
-        }
-
-        public User GetById(int id)
-        {
-            return _context.Users.FirstOrDefault(x => x.UserId == id);
-        }
-
-        // helper methods
-
-        private string generateJwtToken(User user)
-        {
-            // generate token that is valid for 7 days
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            public IEnumerable<SubjectToShedule> GetShedulePerDay(int sheduleId, DayOfWeek sheduleDay)
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserId.ToString()) }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+                return _context.SubjectToShedules
+                    .Where(s => s.SheduleDay == sheduleDay && s.GroupId == sheduleId);
+
+            }
+
+            public IEnumerable<Message> GetMessages(int groupId)
+            {
+                return _context.Messages
+                    .Where(s => s.GroupId == groupId)
+                    .Include(s => s.User)
+                    .OrderBy(s => s.Date);
+            }
+
+
+            public Group GetGroup(int groupId)
+            {
+                return _context.Groups
+                    .Include(s => s.UserList)
+                    .Where(s => s.GroupId == groupId)
+                    .FirstOrDefault();
+
+            }
+
+            public IEnumerable<Group> GetAllGroups()
+            {
+                return _context.Groups;
+
+            }
+
+
+
+            public SubjectToShedule GetSubjectToSedule(int subjectToShedule)
+            {
+                return _context.SubjectToShedules.FirstOrDefault(s => s.SubjectToSheduleId == subjectToShedule);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            public AuthenticateResponse Authenticate(AuthenticateRequest model)
+            {
+                var user = _context.Users.SingleOrDefault(x => x.Email == model.Email && x.Password == model.Password);
+
+                // return null if user not found
+                if (user == null) return null;
+
+                // authentication successful so generate jwt token
+                var token = generateJwtToken(user);
+
+                return new AuthenticateResponse(user, token);
+            }
+
+            public IEnumerable<User> GetAll()
+            {
+                return _context.Users;
+            }
+
+            public User GetById(int id)
+            {
+                return _context.Users.FirstOrDefault(x => x.UserId == id);
+            }
+
+            // helper methods
+
+            private string generateJwtToken(User user)
+            {
+                // generate token that is valid for 7 days
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserId.ToString()) }),
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                return tokenHandler.WriteToken(token);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
-}
