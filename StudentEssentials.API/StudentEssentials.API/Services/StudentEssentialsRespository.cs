@@ -274,21 +274,6 @@ namespace StudentEssentials.API.Services
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             public AuthenticateResponse Authenticate(AuthenticateRequest model)
             {
                 var user = _context.Users.SingleOrDefault(x => x.Email == model.Email && x.Password == model.Password);
